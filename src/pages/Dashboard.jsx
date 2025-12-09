@@ -35,6 +35,7 @@ function Dashboard() {
         setBookings(bookingsData);
         setUsers(usersData);
         setError(null);
+        console.log(servicesData, bookingsData, usersData);
       } catch (err) {
         console.error('❌ Error fetching dashboard data:', err);
         setError(err.response?.data?.message || err.message || 'Failed to fetch data');
