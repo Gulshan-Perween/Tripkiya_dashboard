@@ -6,51 +6,51 @@ export default function PartnerDashboard() {
   const [packages, setPackages] = useState([]);
   const [bookings, setBookings] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("partnerToken");
-        console.log(token);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const token = localStorage.getItem("partnerToken");
+  //       console.log(token);
 
-        if (!token) {
-          window.location.href = "/partner-login";
-          return;
-        }
+  //       if (!token) {
+  //         window.location.href = "/partner-login";
+  //         return;
+  //       }
 
-        const pk = await axios.get(
-          "https://tripkiya-backend.onrender.com/api/partner/packages",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+  //       const pk = await axios.get(
+  //         "https://tripkiya-backend.onrender.com/api/partner/packages",
+  //         {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }
+  //       );
 
-        const bk = await axios.get(
-          "https://tripkiya-backend.onrender.com/api/partner/bookings",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+  //       const bk = await axios.get(
+  //         "https://tripkiya-backend.onrender.com/api/partner/bookings",
+  //         {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }
+  //       );
 
-        console.log("Bookings response =>", bk.data);
+  //       console.log("Bookings response =>", bk.data);
 
-        setPackages(Array.isArray(pk.data) ? pk.data : []);
+  //       setPackages(Array.isArray(pk.data) ? pk.data : []);
 
-        setBookings(
-          Array.isArray(bk.data)
-            ? bk.data
-            : Array.isArray(bk.data?.bookings)
-            ? bk.data.bookings
-            : []
-        );
-      } catch (err) {
-        console.log(err);
-        localStorage.removeItem("partnerToken");
-        window.location.href = "/partner-login";
-      }
-    };
+  //       setBookings(
+  //         Array.isArray(bk.data)
+  //           ? bk.data
+  //           : Array.isArray(bk.data?.bookings)
+  //           ? bk.data.bookings
+  //           : []
+  //       );
+  //     } catch (err) {
+  //       console.log(err);
+  //       localStorage.removeItem("partnerToken");
+  //       window.location.href = "/partner-login";
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const safeBookings = Array.isArray(bookings) ? bookings : [];
 
