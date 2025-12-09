@@ -24,7 +24,7 @@ export default function PartnerDashboard() {
  useEffect(() => {
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
+const token = localStorage.getItem("partnerToken");
 
       const pk = await axios.get(
         "https://tripkiya-backend.onrender.com/api/partner/packages",
