@@ -1,4 +1,4 @@
-import { Package, CalendarCheck2, DollarSign, TrendingUp } from "lucide-react";
+import { Package, CalendarCheck2, DollarSign } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -6,53 +6,58 @@ export default function PartnerDashboard() {
   const [packages, setPackages] = useState([]);
   const [bookings, setBookings] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const pk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/packages");
-  //       const bk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/bookings");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("partnerToken");
+        console.log(token);
 
-  //       setPackages(pk.data || []);
-  //       setBookings(bk.data || []);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-const token = localStorage.getItem("partnerToken");
-
-      const pk = await axios.get(
-        "https://tripkiya-backend.onrender.com/api/partner/packages",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        if (!token) {
+          window.location.href = "/partner-login";
+          return;
         }
-      );
 
-      const bk = await axios.get(
-        "https://tripkiya-backend.onrender.com/api/partner/bookings",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+        const pk = await axios.get(
+          "https://tripkiya-backend.onrender.com/api/partner/packages",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-      setPackages(pk.data || []);
-      setBookings(bk.data || []);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        const bk = await axios.get(
+          "https://tripkiya-backend.onrender.com/api/partner/bookings",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
-  fetchData();
-}, []);
+        console.log("Bookings response =>", bk.data);
+
+        setPackages(Array.isArray(pk.data) ? pk.data : []);
+
+        setBookings(
+          Array.isArray(bk.data)
+            ? bk.data
+            : Array.isArray(bk.data?.bookings)
+            ? bk.data.bookings
+            : []
+        );
+      } catch (err) {
+        console.log(err);
+        localStorage.removeItem("partnerToken");
+        window.location.href = "/partner-login";
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const safeBookings = Array.isArray(bookings) ? bookings : [];
+
+  const totalRevenue = safeBookings.reduce(
+    (sum, b) => sum + (b.totalPrice || 0),
+    0
+  );
 
   const stats = [
     {
@@ -62,15 +67,12 @@ const token = localStorage.getItem("partnerToken");
     },
     {
       label: "Total Bookings",
-      value: bookings.length,
+      value: safeBookings.length,
       icon: CalendarCheck2,
     },
     {
       label: "Total Revenue",
-      value: "₹" +
-        bookings
-          .reduce((sum, b) => sum + (b.totalPrice || 0), 0)
-          .toLocaleString(),
+      value: `₹${totalRevenue.toLocaleString()}`,
       icon: DollarSign,
     },
   ];
@@ -102,7 +104,7 @@ const token = localStorage.getItem("partnerToken");
       <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
         <h2 className="text-xl font-semibold mb-4">Recent Bookings</h2>
 
-        {bookings.length === 0 ? (
+        {safeBookings.length === 0 ? (
           <p className="text-gray-400">No recent bookings</p>
         ) : (
           <div className="overflow-auto">
@@ -115,7 +117,7 @@ const token = localStorage.getItem("partnerToken");
                 </tr>
               </thead>
               <tbody>
-                {bookings.slice(0, 5).map((b) => (
+                {safeBookings.slice(0, 5).map((b) => (
                   <tr
                     key={b._id}
                     className="border-b border-gray-800 hover:bg-gray-800"
