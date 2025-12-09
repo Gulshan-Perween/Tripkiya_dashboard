@@ -14,9 +14,9 @@ function Dashboard() {
       try {
         setLoading(true);
         const [servicesRes, bookingsRes, usersRes] = await Promise.all([
-          axios.get('http://localhost:3000/api/packages'),
-          axios.get('http://localhost:3000/api/bookings'),
-          axios.get('http://localhost:3000/api/auth/users'),
+          axios.get('https://tripkiya-backend.onrender.com/api/packages'),
+          axios.get('https://tripkiya-backend.onrender.com/api/bookings'),
+          axios.get('https://tripkiya-backend.onrender.com/api/auth/users'),
         ]);
 
         const servicesData = Array.isArray(servicesRes.data)

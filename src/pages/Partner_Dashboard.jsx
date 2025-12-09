@@ -9,8 +9,8 @@ export default function PartnerDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const pk = await axios.get("http://localhost:3000/api/partner/packages");
-        const bk = await axios.get("http://localhost:3000/api/partner/bookings");
+        const pk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/packages");
+        const bk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/bookings");
 
         setPackages(pk.data || []);
         setBookings(bk.data || []);

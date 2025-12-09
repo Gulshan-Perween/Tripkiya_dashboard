@@ -14,7 +14,7 @@ export default function PartnerLogin() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/api/partner/login", {
+      const res = await fetch("https://tripkiya-backend.onrender.com/api/partner/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),

@@ -8,7 +8,7 @@ function Users() {
   // Fetch all users
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/auth/users");
+      const res = await axios.get("https://tripkiya-backend.onrender.com/api/auth/users");
       setUsers(Array.isArray(res.data.users) ? res.data.users : []);
     } catch (err) {
       console.error("❌ Error fetching users:", err);

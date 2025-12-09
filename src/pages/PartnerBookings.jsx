@@ -116,7 +116,7 @@ export default function PartnerBookings() {
   const loadBookings = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/partner/booking",
+        "https://tripkiya-backend.onrender.com/api/partner/booking",
         {
           headers: { Authorization: `Bearer ${token}` }
         }

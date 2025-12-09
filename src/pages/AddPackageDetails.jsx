@@ -39,7 +39,7 @@ export default function AddPackageDetails() {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "http://10.0.2.2:3000/api/package-details/add",
+        "https://tripkiya-backend.onrender.com/api/package-details/add",
         form
       );
       alert("Package Details Added Successfully!");

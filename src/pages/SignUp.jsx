@@ -24,7 +24,7 @@ export default function PartnerSignup() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/partner/signup", {
+      const res = await fetch("https://tripkiya-backend.onrender.com/api/partner/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

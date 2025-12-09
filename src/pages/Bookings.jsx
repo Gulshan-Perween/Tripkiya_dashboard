@@ -8,7 +8,7 @@ function Bookings() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/bookings");
+        const res = await axios.get("https://tripkiya-backend.onrender.com/api/bookings");
         setBookings(res.data.bookings || []);
       } catch (err) {
         console.error("Error fetching bookings:", err.response?.data || err.message);

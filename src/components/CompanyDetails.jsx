@@ -15,7 +15,7 @@ export default function CompanyDetails() {
   const handleSubmit = async () => {
     try {
       const res = await fetch(
-        "http://10.0.2.2:3000/api/company-details/add",
+        "https://tripkiya-backend.onrender.com/api/company-details/add",
         {
           method: "POST",
           headers: {

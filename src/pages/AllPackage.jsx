@@ -5,7 +5,7 @@ import PackageCard from "../components/PackageCard";
 import axios from "axios";
 
 function AllPackage() {
-  const BASE_URL = "http://localhost:3000/api/packages";
+  const BASE_URL = "https://tripkiya-backend.onrender.com/api/packages";
 
   const [packages, setPackages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");

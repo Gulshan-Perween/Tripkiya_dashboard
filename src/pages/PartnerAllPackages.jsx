@@ -6,7 +6,7 @@ export default function PartnerAllPackages() {
   const [packages, setPackages] = useState([]);
 
   const loadPackages = async () => {
-    const res = await axios.get("http://localhost:3000/api/partner/packages", {
+    const res = await axios.get("https://tripkiya-backend.onrender.com/api/partner/packages", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("partnerToken")}`,
       },
