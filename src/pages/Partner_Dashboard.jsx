@@ -6,21 +6,53 @@ export default function PartnerDashboard() {
   const [packages, setPackages] = useState([]);
   const [bookings, setBookings] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const pk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/packages");
-        const bk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/bookings");
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const pk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/packages");
+  //       const bk = await axios.get("https://tripkiya-backend.onrender.com/api/partner/bookings");
 
-        setPackages(pk.data || []);
-        setBookings(bk.data || []);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  //       setPackages(pk.data || []);
+  //       setBookings(bk.data || []);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const pk = await axios.get(
+        "https://tripkiya-backend.onrender.com/api/partner/packages",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const bk = await axios.get(
+        "https://tripkiya-backend.onrender.com/api/partner/bookings",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setPackages(pk.data || []);
+      setBookings(bk.data || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchData();
+}, []);
 
   const stats = [
     {
