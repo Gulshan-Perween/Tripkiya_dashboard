@@ -87,7 +87,7 @@ import Analytics from "./pages/Analytics";
 import AddPackageDetails from "./pages/AddPackageDetails";
 
 // Partner Pages
-import PartnerDashboard from "./pages/Partner_Dashboard";
+import PartnerDashboard from "./pages/PartnerDashboard";
 import PartnerSignup from "./pages/SignUp";
 import PartnerLogin from "./pages/Login";
 import PartnerCreatePackage from "./pages/PartnerCreatePackage";

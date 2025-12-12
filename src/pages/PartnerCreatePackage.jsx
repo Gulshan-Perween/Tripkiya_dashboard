@@ -3,11 +3,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import PackageForm from "../components/PackageForm";
+// import PackageForm from "../components/PackageForm";
+import PartnerPackageForm from "../components/PartnerPackageForm";
 
 export default function PartnerCreatePackage() {
   const navigate = useNavigate();
-
+  const pID = localStorage.getItem("partnerToken");
+  console.log("partner id",pID);
   const [companyDetails, setCompanyDetails] = useState({
     name: "",
     address: "",
@@ -137,7 +139,8 @@ export default function PartnerCreatePackage() {
           Package Information
         </h2>
 
-        <PackageForm onSubmit={handleSubmit} companyDetails={companyDetails} />
+        {/* <PackageForm onSubmit={handleSubmit} companyDetails={companyDetails} /> */}
+        <PartnerPackageForm onSubmit={handleSubmit} companyDetails={companyDetails} />
       </div>
     </div>
   );

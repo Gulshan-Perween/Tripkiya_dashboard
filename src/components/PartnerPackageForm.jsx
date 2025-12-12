@@ -4,7 +4,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
+function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
+    const pid = localStorage.getItem("partnerToken");
+    console.log(pid);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -100,16 +102,27 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
       if (service) {
         // Update existing
         res = await axios.put(
-          `http://localhost:3000/api/packages/${service._id}`,
+          `http://localhost:3000/api/partner/packages/${service._id}`,
           cleanData
         );
       } else {
         // Create new
-        res = await axios.post("http://localhost:3000/api/packages", cleanData);
+        // res = await axios.post("http://localhost:3000/api/partner/packages", cleanData);
+        res = await axios.post(
+   "http://localhost:3000/api/partner/packages",
+   cleanData,
+   {
+     headers:{
+       Authorization: `Bearer ${localStorage.getItem("partnerToken")}`
+     }
+   }
+);
+
         
       }
 
       onSubmit(res.data);
+      console.log("📦 Package saved:", res.data);
 
       // Reset form only after creation
       if (!service) {
@@ -286,4 +299,4 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
   );
 }
 
-export default PackageForm;
+export default PartnerPackageForm;
