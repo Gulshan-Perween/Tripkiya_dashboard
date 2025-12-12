@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/base_url";
 
 function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
     const pid = localStorage.getItem("partnerToken");
@@ -109,7 +110,8 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
         // Create new
         // res = await axios.post("http://localhost:3000/api/partner/packages", cleanData);
         res = await axios.post(
-   "http://localhost:3000/api/partner/packages",
+  //  "http://localhost:3000/api/partner/packages",
+  `${BASE_URL}/partner/packages`,
    cleanData,
    {
      headers:{

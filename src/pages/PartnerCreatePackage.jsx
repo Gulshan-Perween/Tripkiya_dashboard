@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 // import PackageForm from "../components/PackageForm";
 import PartnerPackageForm from "../components/PartnerPackageForm";
+import { BASE_URL } from "../utils/base_url";
 
 export default function PartnerCreatePackage() {
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ export default function PartnerCreatePackage() {
   const handleSubmit = async (packageData) => {
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/partner/packages",
+        // "http://localhost:3000/api/partner/packages",
+        `${BASE_URL}/partner/packages`,
         {
           ...packageData,
           companyDetails,

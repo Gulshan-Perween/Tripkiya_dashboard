@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/base_url";
 
 function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
   const [formData, setFormData] = useState({
@@ -100,12 +101,13 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
       if (service) {
         // Update existing
         res = await axios.put(
-          `http://localhost:3000/api/packages/${service._id}`,
+          // `http://localhost:3000/api/packages/${service._id}`,
+          `${BASE_URL}/api/packages/${service._id}`,
           cleanData
         );
       } else {
         // Create new
-        res = await axios.post("http://localhost:3000/api/packages", cleanData);
+        res = await axios.post(`${BASE_URL}/api/packages`, cleanData);
         
       }
 

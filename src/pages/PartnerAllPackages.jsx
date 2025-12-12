@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Trash, Edit } from "lucide-react";
-
+import { useParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 export default function PartnerAllPackages() {
   const [packages, setPackages] = useState([]);
-
+  const[decoded, setDecoded] = useState();
+  const token = localStorage.getItem("partnerToken");
+  console.log(token);
+  console.log(packages);
+  
   const loadPackages = async () => {
-    const res = await axios.get("https://tripkiya-backend.onrender.com/api/partner/packages", {
+    const token = localStorage.getItem("partnerToken");
+    if (token) {
+  const decoded = jwtDecode(token);
+  console.log("Decoded token:", decoded);
+  console.log("Partner ID:", decoded.id);
+  setDecoded(decoded.id);
+}
+    const res = await axios.get(`http://localhost:3000/api/partner/69341dfacceb63a0384db3d1/packages`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("partnerToken")}`,
+        Authorization: `Bearer ${token}`,
+        application: "application/json",
       },
     });
-    setPackages(res.data || []);
+    setPackages(res.data.packages || []);
+    console.log("==>",res.data.packages);
   };
+// const loadPackages = async
 
   useEffect(() => {
     loadPackages();

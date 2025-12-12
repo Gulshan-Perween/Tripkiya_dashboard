@@ -5,7 +5,7 @@ import axios from "axios";
 export default function PartnerDashboard() {
   const [packages, setPackages] = useState([]);
   const [bookings, setBookings] = useState([]);
-
+  console.log(packages);
   useEffect(() => {
     const fetchData = async () => {
       try {
