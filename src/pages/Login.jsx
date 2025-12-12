@@ -161,7 +161,8 @@ export default function Login() {
         localStorage.setItem("role", "partner");
 
         alert("Partner Login Successful!");
-        window.location.href = "/partner-dashboard";
+        // window.location.href = "/partner-dashboard";
+        navigate("/partner-dashboard", { replace: true });
         return;
       }
 
