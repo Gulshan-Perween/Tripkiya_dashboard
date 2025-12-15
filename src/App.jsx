@@ -92,6 +92,7 @@ import PartnerSignup from "./pages/SignUp";
 import PartnerLogin from "./pages/Login";
 import PartnerCreatePackage from "./pages/PartnerCreatePackage";
 import PartnerAllPackages from "./pages/PartnerAllPackages";
+import PartnerProfile from "./pages/PartnerProfile";
 
 // -------- Layout Handler --------
 function Layout() {
@@ -138,6 +139,7 @@ const isPartner =
             <Route path="/partner-dashboard" element={<PartnerDashboard />} />
             <Route path="/partner/signup" element={<PartnerSignup />} />
             <Route path="/partner/login" element={<PartnerLogin />} />
+            <Route path="/partner/profile" element={<PartnerProfile />} />
             
             {/* Partner Package Routes */}
             <Route path="/partner/packages/new" element={<PartnerCreatePackage />} />

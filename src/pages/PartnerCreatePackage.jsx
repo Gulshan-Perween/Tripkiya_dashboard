@@ -26,31 +26,56 @@ export default function PartnerCreatePackage() {
     }));
   };
 
-  const handleSubmit = async (packageData) => {
-    try {
-      const res = await axios.post(
-        // "http://localhost:3000/api/partner/packages",
-        `${BASE_URL}/partner/packages`,
-        {
-          ...packageData,
-          companyDetails,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("partnerToken")}`,
-          },
-        }
-      );
+  // const handleSubmit = async (packageData) => {
+  //   try {
+  //     const res = await axios.post(
+  //       "http://localhost:3000/api/partner/packages",
+  //       // `${BASE_URL}/partner/packages`,
+  //       {
+  //         ...packageData,
+  //         companyDetails,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("partnerToken")}`,
+  //         },
+  //       }
+  //     );
 
-      if (res.data.success) {
-        alert("🎉 Package added successfully!");
-        navigate("/dashboard/packages");
+  //     if (res.data.success) {
+  //       alert("🎉 Package added successfully!");
+  //       navigate("/dashboard/packages");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("❌ Failed to add package");
+  //   }
+  // };
+const handleSubmit = async (packageData) => {
+  try {
+    const res = await axios.post(
+      "http://localhost:3000/api/partner/packages",
+      {
+        ...packageData,
+        companyDetails,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("partnerToken")}`,
+        },
       }
-    } catch (err) {
-      console.error(err);
-      alert("❌ Failed to add package");
-    }
-  };
+    );
+
+    console.log("API response:", res.data);
+
+    alert("🎉 Package added successfully!");
+    navigate("/dashboard/packages");
+
+  } catch (err) {
+    console.error(err);
+    alert("❌ Failed to add package");
+  }
+};
 
   return (
     <div className="max-w-2xl">

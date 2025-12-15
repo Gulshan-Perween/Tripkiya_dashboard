@@ -2,12 +2,8 @@
 
 
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { BASE_URL } from "../utils/base_url";
 
 function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
-    const pid = localStorage.getItem("partnerToken");
-    console.log(pid);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -45,7 +41,7 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Handle array-based fields (inclusions, exclusions, images)
+  // ✅ Handle array-based fields
   const handleArrayChange = (e, index, key) => {
     const updatedArray = [...formData[key]];
     updatedArray[index] = e.target.value;
@@ -56,7 +52,7 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
     setFormData((prev) => ({ ...prev, [key]: [...prev[key], ""] }));
   };
 
-  // ✅ Handle itinerary changes
+  // ✅ Handle itinerary
   const handleItineraryChange = (e, index, field) => {
     const updatedItinerary = [...formData.itinerary];
     updatedItinerary[index][field] = e.target.value;
@@ -70,85 +66,31 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
     }));
   };
 
-  // ✅ Submit Form
-  const handleSubmit = async (e) => {
+  // ✅ Submit (NO API CALL HERE)
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      // clean + ensure correct types
-      const cleanData = {
-        ...formData,
-        numberOfPeople: Number(formData.numberOfPeople),
-        price: String(formData.price),
-        itinerary: formData.itinerary.filter(
-          (i) => i.day.trim() !== "" && i.details.trim() !== ""
-        ),
-        inclusions: formData.inclusions.filter((i) => i.trim() !== ""),
-        exclusions: formData.exclusions.filter((i) => i.trim() !== ""),
-        images: formData.images.filter((i) => i.trim() !== ""),
-        // 🔵 ADD COMPANY DETAILS HERE
-        companyDetails: companyDetails || {
-          name: "",
-          address: "",
-          phone: "",
-          email: ""
-        }
-      };
+    const cleanData = {
+      ...formData,
+      numberOfPeople: Number(formData.numberOfPeople),
+      price: String(formData.price),
+      itinerary: formData.itinerary.filter(
+        (i) => i.day.trim() && i.details.trim()
+      ),
+      inclusions: formData.inclusions.filter((i) => i.trim()),
+      exclusions: formData.exclusions.filter((i) => i.trim()),
+      images: formData.images.filter((i) => i.trim()),
+      companyDetails,
+    };
 
-      console.log("📦 Data being sent:", cleanData);
-    console.log("🏢 Company Details:", cleanData.companyDetails);
+    console.log("📦 Data being sent to parent:", cleanData);
 
-
-      let res;
-      if (service) {
-        // Update existing
-        res = await axios.put(
-          `http://localhost:3000/api/partner/packages/${service._id}`,
-          cleanData
-        );
-      } else {
-        // Create new
-        // res = await axios.post("http://localhost:3000/api/partner/packages", cleanData);
-        res = await axios.post(
-  //  "http://localhost:3000/api/partner/packages",
-  `${BASE_URL}/partner/packages`,
-   cleanData,
-   {
-     headers:{
-       Authorization: `Bearer ${localStorage.getItem("partnerToken")}`
-     }
-   }
-);
-
-        
-      }
-
-      onSubmit(res.data);
-      console.log("📦 Package saved:", res.data);
-
-      // Reset form only after creation
-      if (!service) {
-        setFormData({
-          title: "",
-          description: "",
-          price: "",
-          duration: "",
-          numberOfPeople: "",
-          itinerary: [{ day: "", details: "" }],
-          inclusions: [""],
-          exclusions: [""],
-          images: [""],
-        });
-      }
-    } catch (error) {
-      console.error("❌ Error saving package:", error.response?.data || error);
-      alert(error.response?.data?.message || "Something went wrong!");
-    }
+    onSubmit(cleanData); // 🔥 ONLY send data to parent
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Basic Info */}
+      {/* Title */}
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">
           Title
@@ -159,10 +101,11 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
           value={formData.title}
           onChange={handleChange}
           required
-          className="w-full bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white focus:border-[#2563EB]"
+          className="w-full bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
         />
       </div>
 
+      {/* Description */}
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">
           Description
@@ -173,55 +116,42 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
           onChange={handleChange}
           required
           rows="4"
-          className="w-full bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white focus:border-[#2563EB]"
+          className="w-full bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
         />
       </div>
 
+      {/* Price / Duration / People */}
       <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Price (₹)
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            className="w-full bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Duration (e.g. 3 Days / 2 Nights)
-          </label>
-          <input
-            type="text"
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-            required
-            className="w-full bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            Number of People
-          </label>
-          <input
-            type="number"
-            name="numberOfPeople"
-            value={formData.numberOfPeople}
-            onChange={handleChange}
-            required
-            className="w-full bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
-          />
-        </div>
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          value={formData.price}
+          onChange={handleChange}
+          required
+          className="bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
+        />
+        <input
+          type="text"
+          name="duration"
+          placeholder="Duration"
+          value={formData.duration}
+          onChange={handleChange}
+          required
+          className="bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
+        />
+        <input
+          type="number"
+          name="numberOfPeople"
+          placeholder="People"
+          value={formData.numberOfPeople}
+          onChange={handleChange}
+          required
+          className="bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
+        />
       </div>
 
-      {/* Itinerary Section */}
+      {/* Itinerary */}
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">
           Itinerary
@@ -229,14 +159,12 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
         {formData.itinerary.map((item, index) => (
           <div key={index} className="flex gap-4 mb-3">
             <input
-              type="text"
               placeholder="Day"
               value={item.day}
               onChange={(e) => handleItineraryChange(e, index, "day")}
               className="flex-1 bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
             />
             <input
-              type="text"
               placeholder="Details"
               value={item.details}
               onChange={(e) => handleItineraryChange(e, index, "details")}
@@ -244,11 +172,7 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
             />
           </div>
         ))}
-        <button
-          type="button"
-          onClick={handleAddItinerary}
-          className="text-[#2563EB] text-sm font-medium hover:underline"
-        >
+        <button type="button" onClick={handleAddItinerary} className="text-blue-400">
           + Add Day
         </button>
       </div>
@@ -256,24 +180,15 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
       {/* Inclusions / Exclusions / Images */}
       {["inclusions", "exclusions", "images"].map((key) => (
         <div key={key}>
-          <label className="block text-sm font-medium text-gray-300 mb-2 capitalize">
-            {key}
-          </label>
           {formData[key].map((item, index) => (
             <input
               key={index}
-              type="text"
-              placeholder={`Enter ${key.slice(0, -1)}`}
               value={item}
               onChange={(e) => handleArrayChange(e, index, key)}
               className="w-full mb-2 bg-[#1e1e1e] border border-gray-800 rounded-lg px-4 py-3 text-white"
             />
           ))}
-          <button
-            type="button"
-            onClick={() => handleAddField(key)}
-            className="text-[#2563EB] text-sm font-medium hover:underline"
-          >
+          <button type="button" onClick={() => handleAddField(key)} className="text-blue-400">
             + Add {key.slice(0, -1)}
           </button>
         </div>
@@ -281,18 +196,11 @@ function PartnerPackageForm({ service, onSubmit, onCancel, companyDetails }) {
 
       {/* Buttons */}
       <div className="flex gap-4">
-        <button
-          type="submit"
-          className="flex-1 bg-[#2563EB] hover:bg-[#1E40AF] text-white font-semibold px-6 py-3 rounded-lg transition"
-        >
+        <button type="submit" className="flex-1 bg-blue-600 text-white py-3 rounded-lg">
           {service ? "Update Package" : "Create Package"}
         </button>
         {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition"
-          >
+          <button type="button" onClick={onCancel} className="flex-1 bg-gray-700 text-white py-3 rounded-lg">
             Cancel
           </button>
         )}
