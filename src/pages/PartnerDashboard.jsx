@@ -18,14 +18,15 @@ export default function PartnerDashboard() {
         }
 
         const pk = await axios.get(
-          "https://tripkiya-backend.onrender.com/api/partner/packages",
+        `http://localhost:3000/api/partner/692ac9769620c01ffa79fc8f/packages`,
+        
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
 
         const bk = await axios.get(
-          "https://tripkiya-backend.onrender.com/api/partner/bookings",
+        "https://tripkiya-backend.onrender.com/api/partner/bookings",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

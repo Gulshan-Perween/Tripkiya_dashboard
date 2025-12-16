@@ -13,7 +13,7 @@ export default function PartnerSidebar() {
 
   // Correct nav items with correct paths
   const navItems = [
-    { path: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { path: "/partner-dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { path: "/partner/packages/new", icon: Plus, label: "Create Package" },
     { path: "/dashboard/packages", icon: List, label: "All Packages" }, // FIXED
     { path: "/partner/bookings", icon: ClipboardList, label: "Bookings" },

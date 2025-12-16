@@ -8,13 +8,15 @@ export default function PartnerProfile() {
 
   const fetchProfile = async () => {
     try {
-      const token = localStorage.getItem("partnerToken");
-      const res = await axios.get(`${BASE_URL}/partner/me`, {
+      // const token = localStorage.getItem("partnerToken");
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmFjOTc2OTYyMGMwMWZmYTc5ZmM4ZiIsInJvbGUiOiJwYXJ0bmVyIiwiaWF0IjoxNzY1Nzk3MzMwLCJleHAiOjE3NjgzODkzMzB9.Zzk3xK1r08e2t3ojjGfS5To7icysSiGWajwZTCYnK70";
+     
+      const res = await axios.get(`${BASE_URL}/api/partner/me`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: 'Bearer ' + token,
         },
       });
-
+      console.log("token from profile", token);
       setProfile(res.data.partner);
     } catch (error) {
       localStorage.removeItem("partnerToken");

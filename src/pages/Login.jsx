@@ -106,7 +106,7 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
-
+  console.log(localStorage.getItem("partnerToken"));
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -159,6 +159,7 @@ export default function Login() {
         localStorage.setItem("partnerToken", data.token);
         localStorage.setItem("partnerInfo", JSON.stringify(data.partner));
         localStorage.setItem("role", "partner");
+        
 
         alert("Partner Login Successful!");
         // window.location.href = "/partner-dashboard";

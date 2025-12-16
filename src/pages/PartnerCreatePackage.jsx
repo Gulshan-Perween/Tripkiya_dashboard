@@ -9,7 +9,8 @@ import { BASE_URL } from "../utils/base_url";
 
 export default function PartnerCreatePackage() {
   const navigate = useNavigate();
-  const pID = localStorage.getItem("partnerToken");
+  // const pID = localStorage.getItem("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmFjOTc2OTYyMGMwMWZmYTc5ZmM4ZiIsInJvbGUiOiJwYXJ0bmVyIiwiaWF0IjoxNzY1Nzk3MzMwLCJleHAiOjE3NjgzODkzMzB9.Zzk3xK1r08e2t3ojjGfS5To7icysSiGWajwZTCYnK70");
+  const pID = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MmFjOTc2OTYyMGMwMWZmYTc5ZmM4ZiIsInJvbGUiOiJwYXJ0bmVyIiwiaWF0IjoxNzY1Nzk3MzMwLCJleHAiOjE3NjgzODkzMzB9.Zzk3xK1r08e2t3ojjGfS5To7icysSiGWajwZTCYnK70'
   console.log("partner id",pID);
   const [companyDetails, setCompanyDetails] = useState({
     name: "",
