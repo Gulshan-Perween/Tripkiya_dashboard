@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { BarChart, Users, Briefcase } from "lucide-react";
 import { ResponsiveContainer, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend } from "recharts";
+import { BASE_URL } from "../utils/base_url";
 
 function Analytics() {
   const [stats, setStats] = useState({ users: 0, bookings: 0, revenue: 0 });
@@ -9,7 +10,7 @@ function Analytics() {
 
   const fetchStats = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/admin/stats");
+      const res = await axios.get(`${BASE_URL}/api/admin/stats`);
       setStats(res.data.stats || {});
       setPopularPackages(res.data.popularPackages || []);
     } catch (err) {

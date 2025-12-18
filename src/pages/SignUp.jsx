@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/base_url";
 
 export default function PartnerSignup() {
   const [form, setForm] = useState({
@@ -24,7 +25,7 @@ export default function PartnerSignup() {
     }
 
     try {
-      const res = await fetch("https://tripkiya-backend.onrender.com/api/partner/signup", {
+      const res = await fetch(`${BASE_URL}/api/partner/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

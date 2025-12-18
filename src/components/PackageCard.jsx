@@ -5,8 +5,8 @@
 import { Edit, Trash2, Building2, MapPin, Phone, Mail } from "lucide-react";
 
 function PackageCard({ service, onEdit, onDelete }) {
-  console.log("🎴 PackageCard received service:", service);
-  console.log("🏢 PackageCard company details:", service?.companyDetails);
+  // console.log("🎴 PackageCard received service:", service);
+  // console.log("🏢 PackageCard company details:", service?.companyDetails);
   
   if (!service) {
     return <h1 className="text-white text-xl">No Package</h1>;
@@ -21,7 +21,7 @@ function PackageCard({ service, onEdit, onDelete }) {
       service.companyDetails.email
     );
   
-  console.log("✅ hasCompanyDetails:", hasCompanyDetails);
+  // console.log("✅ hasCompanyDetails:", hasCompanyDetails);
 
   return (
     <div className="bg-[#1e1e1e] rounded-lg overflow-hidden border border-gray-800 hover:border-[#f88310] transition-colors">

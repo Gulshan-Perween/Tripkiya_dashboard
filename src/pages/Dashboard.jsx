@@ -252,6 +252,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/base_url";
 
 function Dashboard() {
   const [services, setServices] = useState([]);
@@ -262,7 +263,7 @@ function Dashboard() {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user?.role; // admin | manager
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -270,14 +271,14 @@ function Dashboard() {
 
         // ✅ Common APIs (Admin + Manager)
         const requests = [
-          axios.get("http://localhost:3000/api/packages"),
-          axios.get("http://localhost:3000/api/bookings"),
+          axios.get(`${BASE_URL}/api/packages`),
+          axios.get(`${BASE_URL}/api/bookings`),
         ];
 
         // 🔴 Admin-only API
         if (role === "admin") {
           requests.push(
-            axios.get("http://localhost:3000/api/auth/users")
+            axios.get(`${BASE_URL}/api/auth/users`)
           );
         }
 

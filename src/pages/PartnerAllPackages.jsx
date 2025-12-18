@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Trash, Edit } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
+import { BASE_URL } from "../utils/base_url";
 
 
 export default function PartnerAllPackages() {
@@ -36,7 +37,7 @@ export default function PartnerAllPackages() {
 
       // Use the decoded ID instead of hardcoded value
       const res = await axios.get(
-        `http://localhost:3000/api/partner/692ac9769620c01ffa79fc8f/packages`,
+        `${BASE_URL}/api/partner/692ac9769620c01ffa79fc8f/packages`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

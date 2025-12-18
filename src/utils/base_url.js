@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://tripkiya-backend.onrender.com';
+export const BASE_URL = 'https://tripkiya-backend-one.vercel.app';

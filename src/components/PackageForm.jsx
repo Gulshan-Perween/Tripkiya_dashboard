@@ -18,6 +18,8 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
     images: [""],
   });
 
+    const adminToken = localStorage.getItem("token");
+    console.log("Admin Token:", adminToken);
   // ✅ Load existing data if editing
   useEffect(() => {
     if (service) {
@@ -107,7 +109,16 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
         );
       } else {
         // Create new
-        res = await axios.post(`${BASE_URL}/api/packages`, cleanData);
+        res = await axios.post(
+  `${BASE_URL}/api/packages`,
+  cleanData,
+  {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NDE0Mzk1ODJjZDcwMzBjM2E4MzQ3ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NjA0NDA1NCwiZXhwIjoxNzY2MDQ3NjU0fQ.dZhFlVadUsj9j1tUYI7NkZtjMFSgne7XyhJ3SoXASbI`,
+    },
+  }
+);
+
         
       }
 

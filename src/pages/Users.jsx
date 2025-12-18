@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { User, Mail, Calendar, Shield } from "lucide-react";
+import { BASE_URL } from "../utils/base_url";
 
 function Users() {
   const [users, setUsers] = useState([]);
-
+  
   // Fetch all users
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("https://tripkiya-backend.onrender.com/api/auth/users");
+      const res = await axios.get(`${BASE_URL}/api/auth/users`);
       setUsers(Array.isArray(res.data.users) ? res.data.users : []);
     } catch (err) {
       console.error("❌ Error fetching users:", err);

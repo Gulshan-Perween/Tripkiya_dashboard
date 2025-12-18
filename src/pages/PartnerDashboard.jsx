@@ -1,6 +1,7 @@
 import { Package, CalendarCheck2, DollarSign } from "lucide-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/base_url";
 
 export default function PartnerDashboard() {
   const [packages, setPackages] = useState([]);
@@ -18,7 +19,7 @@ export default function PartnerDashboard() {
         }
 
         const pk = await axios.get(
-        `http://localhost:3000/api/partner/692ac9769620c01ffa79fc8f/packages`,
+        `${BASE_URL}/api/partner/692ac9769620c01ffa79fc8f/packages`,
         
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -26,7 +27,7 @@ export default function PartnerDashboard() {
         );
 
         const bk = await axios.get(
-        "https://tripkiya-backend.onrender.com/api/partner/bookings",
+        `${BASE_URL}/api/partner/bookings`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

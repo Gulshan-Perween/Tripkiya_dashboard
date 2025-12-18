@@ -6,9 +6,10 @@ import { Search, Filter } from "lucide-react";
 import PackageForm from "../components/PackageForm";
 import PackageCard from "../components/PackageCard";
 import axios from "axios";
+import { BASE_URL } from "../utils/base_url";
 
 function AllPackage() {
-  const BASE_URL = "https://tripkiya-backend.onrender.com/api/packages";
+
 
   const [packages, setPackages] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,14 +18,15 @@ function AllPackage() {
 
   // 🔐 get user role
   const user = JSON.parse(localStorage.getItem("user"));
+ 
   const role = user?.role;
 
   // 🔐 axios config with token
   const token = localStorage.getItem("token");
   const axiosAuth = axios.create({
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    // },
   });
 
   // ✅ Fetch all packages (public)
@@ -36,6 +38,7 @@ function AllPackage() {
         : res.data.packages || [];
 
       setPackages(data);
+      // console.log(data);
     } catch (err) {
       console.error("❌ Error fetching packages:", err);
       setPackages([]);

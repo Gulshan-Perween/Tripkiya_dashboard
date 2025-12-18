@@ -55,7 +55,7 @@ export default function PartnerCreatePackage() {
 const handleSubmit = async (packageData) => {
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/partner/packages",
+      `${BASE_URL}/api/partner/packages`,
       {
         ...packageData,
         companyDetails,

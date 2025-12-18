@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/base_url";
 
 export default function AddPackageDetails() {
   const [form, setForm] = useState({
@@ -39,7 +40,7 @@ export default function AddPackageDetails() {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(
-        "https://tripkiya-backend.onrender.com/api/package-details/add",
+        `${BASE_URL}/api/package-details/add`,
         form
       );
       alert("Package Details Added Successfully!");

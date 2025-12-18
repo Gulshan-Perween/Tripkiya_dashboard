@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { UserPlus, Mail, Lock } from "lucide-react";
+import { BASE_URL } from "../utils/base_url";
 
 function CreateManager() {
   const [form, setForm] = useState({
@@ -26,7 +27,7 @@ function CreateManager() {
 
     try {
       await axios.post(
-        "http://localhost:3000/api/admin/create-manager",
+        `${BASE_URL}/api/admin/create-manager`,
         { ...form, role: "manager" },
         {
           headers: {

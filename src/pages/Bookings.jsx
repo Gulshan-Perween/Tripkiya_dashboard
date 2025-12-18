@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { CalendarCheck2, User, MapPin, Phone, Mail } from "lucide-react";
+import { BASE_URL } from "../utils/base_url";
 
 function Bookings() {
   const [bookings, setBookings] = useState([]);
@@ -8,7 +9,7 @@ function Bookings() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await axios.get("https://tripkiya-backend.onrender.com/api/bookings");
+        const res = await axios.get(`${BASE_URL}/api/bookings`);
         setBookings(res.data.bookings || []);
       } catch (err) {
         console.error("Error fetching bookings:", err.response?.data || err.message);
