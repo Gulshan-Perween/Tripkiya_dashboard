@@ -6,6 +6,7 @@ import axios from "axios";
 import { Trash, Edit } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 
+
 export default function PartnerAllPackages() {
   const [packages, setPackages] = useState([]);
   const [partnerId, setPartnerId] = useState(null);

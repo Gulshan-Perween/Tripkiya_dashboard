@@ -1,3 +1,6 @@
+
+
+
 import { useEffect, useState } from "react";
 import { Search, Filter } from "lucide-react";
 import PackageForm from "../components/PackageForm";
@@ -12,15 +15,25 @@ function AllPackage() {
   const [editingPackage, setEditingPackage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
-  // ✅ Fetch all packages
+  // 🔐 get user role
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role;
+
+  // 🔐 axios config with token
+  const token = localStorage.getItem("token");
+  const axiosAuth = axios.create({
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  // ✅ Fetch all packages (public)
   const fetchPackages = async () => {
     try {
       const res = await axios.get(BASE_URL);
-      console.log("📦 ALL packages received:", res.data);
-      console.log("🏢 First package company details:", res.data[0]?.companyDetails);
-      const data = Array.isArray(res.data) ? res.data : res.data.packages || [];
-      
-      
+      const data = Array.isArray(res.data)
+        ? res.data
+        : res.data.packages || [];
 
       setPackages(data);
     } catch (err) {
@@ -30,36 +43,44 @@ function AllPackage() {
   };
 
   useEffect(() => {
-    fetchPackages(); // ✅ Run only once
+    fetchPackages();
   }, []);
 
-  // ✅ Delete
+  // ❌ DELETE — ADMIN ONLY
   const handleDelete = async (id) => {
+    if (role !== "admin") {
+      alert("❌ You are not allowed to delete packages");
+      return;
+    }
+
     if (!window.confirm("Are you sure you want to delete this package?")) return;
+
     try {
-      await axios.delete(`${BASE_URL}/${id}`);
+      await axiosAuth.delete(`${BASE_URL}/${id}`);
       alert("🗑️ Package deleted!");
       fetchPackages();
     } catch (err) {
       console.error("❌ Error deleting package:", err);
+      alert("Delete failed");
     }
   };
 
-  // ✅ Edit
+  // ✅ Edit (Admin + Manager)
   const handleEdit = (pkg) => {
     setEditingPackage(pkg);
   };
 
-  // ✅ Update
+  // ✅ Update (Admin + Manager)
   const handleUpdate = async (updatedData) => {
     try {
       const id = editingPackage._id || editingPackage.id;
-      await axios.put(`${BASE_URL}/${id}`, updatedData);
+      await axiosAuth.put(`${BASE_URL}/${id}`, updatedData);
       alert("✅ Package updated!");
       setEditingPackage(null);
       fetchPackages();
     } catch (err) {
       console.error("❌ Error updating package:", err);
+      alert("Update failed");
     }
   };
 
@@ -67,11 +88,12 @@ function AllPackage() {
     setEditingPackage(null);
   };
 
-  // ✅ Search
+  // 🔍 Search
   const filteredPackages = packages.filter((pkg) =>
     pkg.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  /* ---------------- EDIT MODE ---------------- */
   if (editingPackage) {
     return (
       <div className="max-w-2xl">
@@ -87,6 +109,7 @@ function AllPackage() {
     );
   }
 
+  /* ---------------- LIST MODE ---------------- */
   return (
     <div className="space-y-6">
       <div>
@@ -130,7 +153,7 @@ function AllPackage() {
               key={pkg._id}
               service={pkg}
               onEdit={handleEdit}
-              onDelete={handleDelete}
+              onDelete={role === "admin" ? handleDelete : null} // 🔥 KEY LINE
             />
           ))
         ) : (

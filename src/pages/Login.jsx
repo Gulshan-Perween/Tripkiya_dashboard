@@ -111,67 +111,123 @@ export default function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
 
-    // -----------------------------------
-    // 1️⃣ Try Admin Login First
-    // -----------------------------------
-    try {
-      const adminRes = await fetch(
-        "http://localhost:3000/api/admin/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        }
-      );
+  //   // -----------------------------------
+  //   // 1️⃣ Try Admin Login First
+  //   // -----------------------------------
+  //   try {
+  //     const adminRes = await fetch(
+  //       "http://localhost:3000/api/admin/login",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(form),
+  //       }
+  //     );
 
-      if (adminRes.ok) {
-        const data = await adminRes.json();
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", "admin");
+  //     if (adminRes.ok) {
+  //       const data = await adminRes.json();
+  //       localStorage.setItem("token", data.token);
+  //       localStorage.setItem("role", "admin");
 
-        alert("Admin Login Successful!");
-      navigate("/admin-dashboard", { replace: true });
-        return;
-      }
-    } catch (err) {
-      console.log("Admin login failed (normal)");
-    }
+  //       alert("Admin Login Successful!");
+  //     navigate("/admin-dashboard", { replace: true });
+  //       return;
+  //     }
+  //   } catch (err) {
+  //     console.log("Admin login failed (normal)");
+  //   }
 
-    // -----------------------------------
-    // 2️⃣ Try Partner Login
-    // -----------------------------------
-    try {
-      const res = await fetch(
-        "https://tripkiya-backend.onrender.com/api/partner/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        }
-      );
+  //   // -----------------------------------
+  //   // 2️⃣ Try Partner Login
+  //   // -----------------------------------
+  //   try {
+  //     const res = await fetch(
+  //       "https://tripkiya-backend.onrender.com/api/partner/login",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify(form),
+  //       }
+  //     );
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (res.ok) {
-        localStorage.setItem("partnerToken", data.token);
-        localStorage.setItem("partnerInfo", JSON.stringify(data.partner));
-        localStorage.setItem("role", "partner");
+  //     if (res.ok) {
+  //       localStorage.setItem("partnerToken", data.token);
+  //       localStorage.setItem("partnerInfo", JSON.stringify(data.partner));
+  //       localStorage.setItem("role", "partner");
         
 
-        alert("Partner Login Successful!");
-        // window.location.href = "/partner-dashboard";
-        navigate("/partner-dashboard", { replace: true });
-        return;
+  //       alert("Partner Login Successful!");
+  //       // window.location.href = "/partner-dashboard";
+  //       navigate("/partner-dashboard", { replace: true });
+  //       return;
+  //     }
+
+  //     alert(data.message || "Invalid Email or Password");
+  //   } catch (error) {
+  //     alert("Something went wrong");
+  //   }
+  // };
+ 
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    // 🔐 Admin / Manager login (same endpoint)
+    const res = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+
+      // ✅ store unified auth
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      const role = data.user.role;
+
+      if (role === "admin") {
+        navigate("/", { replace: true });
+      } else if (role === "manager") {
+        navigate("/manager-dashboard", { replace: true });
       }
 
-      alert(data.message || "Invalid Email or Password");
-    } catch (error) {
-      alert("Something went wrong");
+      return;
     }
-  };
+
+    // 🔐 Partner login (separate system)
+    const partnerRes = await fetch(
+      "https://tripkiya-backend.onrender.com/api/partner/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      }
+    );
+
+    const partnerData = await partnerRes.json();
+
+    if (partnerRes.ok) {
+      localStorage.setItem("partnerToken", partnerData.token);
+      localStorage.setItem("partnerInfo", JSON.stringify(partnerData.partner));
+      localStorage.setItem("role", "partner");
+
+      navigate("/partner-dashboard", { replace: true });
+      return;
+    }t
+
+    alert("Invalid email or password");
+  } catch (error) {
+    alert("Something went wrong");
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 p-4">
