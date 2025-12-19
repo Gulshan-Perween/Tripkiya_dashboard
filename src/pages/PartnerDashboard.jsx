@@ -19,19 +19,16 @@ export default function PartnerDashboard() {
         }
 
         const pk = await axios.get(
-        `${BASE_URL}/api/partner/692ac9769620c01ffa79fc8f/packages`,
-        
+          `${BASE_URL}/api/partner/692ac9769620c01ffa79fc8f/packages`,
+
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
 
-        const bk = await axios.get(
-        `${BASE_URL}/api/partner/bookings`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const bk = await axios.get(`${BASE_URL}/api/partner/bookings`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         console.log("Bookings response =>", bk.data);
 
@@ -118,15 +115,16 @@ export default function PartnerDashboard() {
                   <th className="py-3">Amount</th>
                 </tr>
               </thead>
+              console.log("Bookings:", safeBookings);
               <tbody>
                 {safeBookings.slice(0, 5).map((b) => (
                   <tr
                     key={b._id}
                     className="border-b border-gray-800 hover:bg-gray-800"
                   >
-                    <td className="py-3">{b.userName}</td>
-                    <td>{b.packageName}</td>
-                    <td className="text-blue-500">₹{b.totalPrice}</td>
+                    <td className="py-3"> {b.user?.name || "User"}</td>
+                    <td> {b.package?.title || "N/A"}</td>₹
+                    {b.amountPaid || b.totalPrice}
                   </tr>
                 ))}
               </tbody>
