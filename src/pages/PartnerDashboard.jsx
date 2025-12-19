@@ -115,16 +115,15 @@ export default function PartnerDashboard() {
                   <th className="py-3">Amount</th>
                 </tr>
               </thead>
-              console.log("Bookings:", safeBookings);
               <tbody>
                 {safeBookings.slice(0, 5).map((b) => (
                   <tr
                     key={b._id}
                     className="border-b border-gray-800 hover:bg-gray-800"
                   >
-                    <td className="py-3"> {b.user?.name || "User"}</td>
-                    <td> {b.package?.title || "N/A"}</td>₹
-                    {b.amountPaid || b.totalPrice}
+                    <td className="py-3"> {b.fullName || "User"}</td>
+                    <td> {b.package|| "N/A"}</td>₹
+                    {b.price || b.totalPrice}
                   </tr>
                 ))}
               </tbody>
