@@ -1,25 +1,29 @@
+
+
+
 import { Navigate, useLocation } from "react-router-dom";
 
-/**
- * Role-based protected route
- * @param {Array} allowedRoles - roles allowed to access this route
- */
 export default function ProtectedRoute({ allowedRoles, children }) {
   const location = useLocation();
 
+  const role = localStorage.getItem("role");
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const partnerToken = localStorage.getItem("partnerToken");
 
-  // 🔐 Not logged in
-  if (!token || !user) {
-    return <Navigate to="/partner/login" state={{ from: location }} replace />;
+  // 🔴 NOT LOGGED IN
+  if (
+    !role ||
+    (role === "partner" && !partnerToken) ||
+    (role !== "partner" && !token)
+  ) {
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  // 🚫 Role not allowed
-  if (!allowedRoles.includes(user.role)) {
+  // 🚫 ROLE NOT ALLOWED
+  if (allowedRoles && !allowedRoles.includes(role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  // ✅ Access granted
+  // ✅ ACCESS GRANTED
   return children;
 }

@@ -90,7 +90,7 @@ function Sidebar() {
 
   /* ---------------- ADMIN MENU ---------------- */
   const adminMenu = [
-    { path: "/", icon: LayoutDashboard, label: "Dashboard" },
+    { path: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { path: "/create", icon: Plus, label: "Create Package" },
     { path: "/packages", icon: List, label: "All Packages" },
     { path: "/bookings", icon: ClipboardList, label: "Bookings" },
@@ -99,8 +99,7 @@ function Sidebar() {
     // 🔥 NEW: CREATE MANAGER (ADMIN ONLY)
     { path: "/admin/create-manager", icon: UserPlus, label: "Create Manager" },
 
-    { path: "/analytics", icon: Plane, label: "Analytics" },
-  ];
+    { path: "/add-package-details", icon: UserPlus, label: "Add Package Details" },];
 
   /* ---------------- MANAGER MENU ---------------- */
   const managerMenu = [

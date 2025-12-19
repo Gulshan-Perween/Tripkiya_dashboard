@@ -114,7 +114,7 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
   cleanData,
   {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NDE0Mzk1ODJjZDcwMzBjM2E4MzQ3ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NjA0NDA1NCwiZXhwIjoxNzY2MDQ3NjU0fQ.dZhFlVadUsj9j1tUYI7NkZtjMFSgne7XyhJ3SoXASbI`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NDE0Mzk1ODJjZDcwMzBjM2E4MzQ3ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NjEyNTQ1MCwiZXhwIjoxNzY2MTI5MDUwfQ.F4DrtomWrvH9obMewSU0AaSzYSrL3yjjdANdAanxdUo`,
     },
   }
 );

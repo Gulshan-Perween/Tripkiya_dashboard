@@ -32,7 +32,7 @@ function AllPackage() {
   // ✅ Fetch all packages (public)
   const fetchPackages = async () => {
     try {
-      const res = await axios.get(BASE_URL);
+      const res = await axios.get(`${BASE_URL}/api/packages`);
       const data = Array.isArray(res.data)
         ? res.data
         : res.data.packages || [];

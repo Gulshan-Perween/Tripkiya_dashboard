@@ -52,7 +52,7 @@ export default function AddPackageDetails() {
   return (
     <div className="max-w-4xl mx-auto bg-[#1e1e1e] p-6 rounded-xl shadow-lg text-white mt-10 border border-gray-700">
 
-      <h2 className="text-2xl font-bold mb-5 text-orange-400">Add Package Details</h2>
+      <h2 className="text-2xl font-bold mb-5 text-blue-400">Add Package Details</h2>
 
       {/* Package ID */}
       <label>Package ID</label>
@@ -309,7 +309,7 @@ export default function AddPackageDetails() {
       </div>
 
       <button
-        className="w-full py-3 bg-orange-500 rounded-lg hover:bg-orange-600 font-bold"
+        className="w-full py-3 bg-blue-500 rounded-lg hover:bg-orange-600 font-bold"
         onClick={handleSubmit}
       >
         Submit Package Details
@@ -335,11 +335,11 @@ export default function AddPackageDetails() {
         .title {
           font-size: 22px;
           margin: 20px 0 10px;
-          color: #ffb347;
+          color: #2b52d4ff;
           font-weight: bold;
         }
         .subtitle {
-          color: #ffa35c;
+          color: #2b52d4ff;
           font-weight: bold;
           margin-bottom: 8px;
         }
