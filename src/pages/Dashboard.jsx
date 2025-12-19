@@ -443,13 +443,13 @@ function Dashboard() {
                 {bookings.slice(0, 5).map((b) => (
                   <tr key={b._id}>
                     <td className="py-3 px-4">
-                      {b.user?.name || "User"}
+                      {b.fullName || "User"}
                     </td>
                     <td className="py-3 px-4">
                       {b.package?.title || "N/A"}
                     </td>
                     <td className="py-3 px-4">
-                      ₹{b.amountPaid || b.totalPrice}
+                      ₹{b.amount || b.totalPrice}
                     </td>
                   </tr>
                 ))}
