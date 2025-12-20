@@ -1,6 +1,3 @@
-
-
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/base_url";
@@ -18,8 +15,8 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
     images: [""],
   });
 
-    const adminToken = localStorage.getItem("token");
-    console.log("Admin Token:", adminToken);
+  const adminToken = localStorage.getItem("token");
+  console.log("Admin Token:", adminToken);
   // ✅ Load existing data if editing
   useEffect(() => {
     if (service) {
@@ -91,13 +88,12 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
           name: "",
           address: "",
           phone: "",
-          email: ""
-        }
+          email: "",
+        },
       };
 
       console.log("📦 Data being sent:", cleanData);
-    console.log("🏢 Company Details:", cleanData.companyDetails);
-
+      console.log("🏢 Company Details:", cleanData.companyDetails);
 
       let res;
       if (service) {
@@ -105,21 +101,19 @@ function PackageForm({ service, onSubmit, onCancel, companyDetails }) {
         res = await axios.put(
           // `http://localhost:3000/api/packages/${service._id}`,
           `${BASE_URL}/api/packages/${service._id}`,
-          cleanData
+          cleanData,{
+            headers: {
+              Authorization: `Bearer ${adminToken}`,
+            },
+          }
         );
       } else {
         // Create new
-        res = await axios.post(
-  `${BASE_URL}/api/packages`,
-  cleanData,
-  {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NDE0Mzk1ODJjZDcwMzBjM2E4MzQ3ZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2NjEyNTQ1MCwiZXhwIjoxNzY2MTI5MDUwfQ.F4DrtomWrvH9obMewSU0AaSzYSrL3yjjdANdAanxdUo`,
-    },
-  }
-);
-
-        
+        res = await axios.post(`${BASE_URL}/api/packages`, cleanData, {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+          },
+        });
       }
 
       onSubmit(res.data);

@@ -122,7 +122,7 @@ export default function PartnerDashboard() {
                     className="border-b border-gray-800 hover:bg-gray-800"
                   >
                     <td className="py-3"> {b.fullName || "User"}</td>
-                    <td> {b.package|| "N/A"}</td>₹
+                    <td> {b.title|| "N/A"}</td>₹
                     {b.price || b.totalPrice}
                   </tr>
                 ))}
