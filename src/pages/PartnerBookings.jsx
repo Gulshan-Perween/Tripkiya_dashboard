@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/base_url";
 
 export default function PartnerBookings() {
   const [bookings, setBookings] = useState([]);
@@ -11,7 +12,7 @@ export default function PartnerBookings() {
       if (!token) return;
 
       const res = await axios.get(
-        "https://tripkiya-backend.onrender.com/api/partner/bookings",
+        `${BASE_URL}/api/partner/bookings`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

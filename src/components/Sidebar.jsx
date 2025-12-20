@@ -106,6 +106,7 @@ function Sidebar() {
     { path: "/manager-dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { path: "/packages", icon: List, label: "All Packages" },
     { path: "/bookings", icon: ClipboardList, label: "Bookings" },
+    { path: "/create", icon: Plane, label: "Create Package" },
   ];
 
   const navItems = role === "manager" ? managerMenu : adminMenu;
